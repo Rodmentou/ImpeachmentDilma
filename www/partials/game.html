@@ -14,17 +14,23 @@
   .jumbotron {
     height: auto;
   }
-  #boss1 { background-image: url('../img/dilma01.jpg');}
-  #boss2 { background-image: url('../img/cunha01.jpg');}
+  #boss0 { background-image: url('../img/boss01.jpg');}
+  #boss1 { background-image: url('../img/boss02.jpg');}
+
+
 </style>
 
 
-  <img ng-click='attack("boss1")' id='boss1' class='jumbotron boss'>
-</img>
+
+<div class="col col-25" ng-click='addAttack(0)'>
+    <img ng-src="../img/boss00.jpg" width="100%" />
+</div>
+
+<div class="col col-25" ng-click='addAttack(1)'>
+    <img ng-src="../img/boss01.jpg" width="100%" />
+</div>
 
 
-
-
-  <img id='boss2' ng-click='attack("boss2")' id='boss2' class='jumbotron boss'>
-
-</img>
+<nav class="navbar navbar-default navbar-fixed-top">
+		 <button ng-click='getBosses()' class='btn glyphicon glyphicon-heart'>Bosses</button>
+</nav>

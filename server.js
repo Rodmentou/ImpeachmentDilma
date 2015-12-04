@@ -25,6 +25,7 @@ app.all('*', function(req, res, next) {
 });
 
 var api = express.Router();
+require('./routes')(api);
 app.use('/api', api);
 
 app.listen(app.PORT, function () {

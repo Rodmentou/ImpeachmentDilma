@@ -41,13 +41,53 @@ app.run(function($ionicPlatform) {
 
 app.controller('GameController',
 function ($rootScope, $scope, $http, $location) {
-  var cookieToken = $rootScope.token;
+  var token = $rootScope.token;
 
 
-  $scope.attack = function (boss) {
+  $scope.addAttack = function (id) {
+    var boss = $scope.bosses[id].accumulated++;
+    boss.accumulated ++;
     console.log(boss);
   };
 
+  $scope.sendAttack = function (id, clicks) {
+    $http.post('https://impeachmentdilmabattle.herokuapp.com/api/attack', {bossId: id, clicks:clicks},
+    { headers: {'x-access-token' : token } })
+    .then( function (res) {
+      console.log(res.data);
+    }, function (res) {
+      console.log(res.data);
+    });
+  };
+
+  $scope.getBosses = function () {
+    $http.get('https://impeachmentdilmabattle.herokuapp.com/api/bosses',
+    { headers: {'x-access-token' : token } })
+    .then( function (res) {
+      $scope.bosses = res.data;
+      console.log(res.data);
+    }, function (err) {
+      $scope.error = 'Algo deu errado';
+    });
+  };
+
+  $scope.getBosses();
+  setInterval ( function () {
+    var bosses = $scope.bosses;
+    var id = 0;
+    for (var i = 0; i < bosses.length; i ++) {
+      if (bosses[i].accumulated > bosses[id].accumulated) {
+        id = i;
+      }
+    }
+    var clicks = bosses[id].accumulated;
+    $scope.sendAttack(id, clicks);
+
+    for (var i = 0; i < bosses.length; i ++) {
+      bosses[i].accumulated = 0;
+    }
+
+  }, 6000);
 
 
 });
@@ -56,8 +96,7 @@ function ($rootScope, $scope, $http, $location) {
 app.controller('LoginController', function ($rootScope, $scope, $http, $location) {
 
 	$scope.signup = function (user) {
-    console.log(user);
-		$http.post('https://infinityrpg.herokuapp.com/api/signup', user)
+		$http.post('https://impeachmentdilmabattle.herokuapp.com/api/signup', user)
 			.then( function (res) {
         console.log(res.data);
 				if (res.data.token) {
@@ -68,26 +107,15 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $location
 				} else {
 					delete $scope.user.username;
 					delete $scope.user.password;
-					$scope.error = 'Error on login';
+					$scope.error = 'Dados inválidos';
 				}
 
 			}, function (res) {
-				console.log('Error on signup');
+				$scope.error = 'Algo deu errado';
 			});
 	};
 
-	$scope.auth = function (user) {
-		$http.post('https://infinityrpg.herokuapp.com/api/auth', user)
-			.then ( function (res) {
-				if (res.data.token){
-					$rootScope.token = res.data.token;
-					$location.path('/play');
-				}
 
-			}, function (res) {
-				$scope.error = 'Error on login.';
-			});
-	};
 });
 
 
