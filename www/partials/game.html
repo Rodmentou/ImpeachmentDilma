@@ -11,6 +11,10 @@
     height: 40%;
   }
 
+  img {
+    position: relative;
+  }
+
   .jumbotron {
     height: auto;
   }
@@ -21,16 +25,22 @@
 </style>
 
 
+<div ng-repeat='boss in bosses'>
+  <div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default">{{boss.accumulated}} Votos de {{boss.maxClicks}}/min</button>
+    </div>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-default">Seu Nível: {{me.level}}</button>
+    </div>
+  </div>
+  <div class="progress-bar progress-bar-striped" role="progressbar"
+       ng-class='boss.hpClass' ng-style="{width: boss.relativeHp}">{{boss.name}} Vida
+  </div>
 
-<div class="col col-25" ng-click='addAttack(0)'>
-    <img ng-src="../img/boss00.jpg" width="100%" />
+  <div class="col col-90" ng-click='addAttack($index)'>
+      <img ng-src="{{boss.imgSrc}}" width="100%" />
+  </div>
+
+
 </div>
-
-<div class="col col-25" ng-click='addAttack(1)'>
-    <img ng-src="../img/boss01.jpg" width="100%" />
-</div>
-
-
-<nav class="navbar navbar-default navbar-fixed-top">
-		 <button ng-click='getBosses()' class='btn glyphicon glyphicon-heart'>Bosses</button>
-</nav>
