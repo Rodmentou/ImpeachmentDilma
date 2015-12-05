@@ -7,7 +7,7 @@ module.exports = function (api) {
   .get ( function (req, res) {
     var username = req.decoded.username;
 
-    User.find({username: username},
+    User.findOne({username: username},
     function (err, data) {
       if (!err) {
         res.json(data);

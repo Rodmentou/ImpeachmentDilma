@@ -1,5 +1,6 @@
 var	mongoose = require('mongoose');
 var User = require('../models/user');
+var Boss = require('../models/boss');
 
 module.exports = function (api) {
 
@@ -20,16 +21,17 @@ module.exports = function (api) {
           user.totalClicks[bossId] = updateTotalClicks(user, bossId, clicks);
           console.log(user);
 
+
           console.log('Indo pro update');
           User.update({username:username},
           {$set: user}, function (err, data) {
             if (!err) {
-              res.json({success: true});
+              return ({success: true});
             } else {
-              res.json({success: false, message: 'Opa no update!'});
+              return ({success: false, message: 'Opa no update!'});
             };
-
           });
+
         } else {
           res.send('Opa no find!');
         }
@@ -39,6 +41,13 @@ module.exports = function (api) {
     }
 
   });
+
+
+  var updateUser = function(username, user) {
+
+  }
+
+
   var validateClicks = function (user, clicks) {
     if (clicks > user.maxClicks) {
       clicks = user.maxClicks;

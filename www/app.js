@@ -98,11 +98,15 @@ function ($rootScope, $scope, $http, $location) {
   	$http.get('http://192.168.0.14:8080/api/me',
   		{ headers: {'x-access-token' : token } })
   		.then ( function (res) {
-        var me = res.data;
-        me.level = Math.round(me.maxClicks/100);
   			$scope.me = res.data;
-        console.log(res.data);
-  			if (!$scope.me) $location.path('/');
+
+        var me = $scope.me;
+        me.level = [];
+        me.level[0] = Math.round(me.maxClicks[0]/100);
+        me.level[1] = Math.round(me.maxClicks[1]/100);
+
+
+        if (!$scope.me) $location.path('/');
   		}, function (res) {
   			console.log('Error fetching data.');
   		});
@@ -115,6 +119,7 @@ function ($rootScope, $scope, $http, $location) {
     .then( function (res) {
       $scope.bosses = res.data;
       var bosses = $scope.bosses;
+      console.log(bosses);
       for (var i = 0; i < bosses.length; i++) {
         bosses[i].relativeHp = Math.round((bosses[i].hp / bosses[i].maxHp)*100) + '%';
         bosses[i].hpClass = $scope.getBarClass(bosses[i]);
@@ -163,7 +168,7 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $location
 				} else {
 					delete $scope.user.username;
 					delete $scope.user.password;
-					$scope.error = 'Dados inválidos';
+					$scope.error = res.data.message;
 				}
 
 			}, function (res) {

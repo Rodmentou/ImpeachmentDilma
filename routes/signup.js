@@ -20,15 +20,20 @@ module.exports = function (api) {
             var token = createNewToken(userFound.username, jwtSecret);
             res.json({user: userFound, token: token});
           } else {
-            console.log('Entered on save');
+            user.totalClicks = [];
+            user.maxClicks = [];
+            user.totalClicks[0] = 0;
+            user.maxClicks[0] = 100;
+            user.totalClicks[1] = 0;
+            user.maxClicks[1] = 100;
+            user.lastAttack = Date.now();
             var newUser = new User(user);
             newUser.save ( function (err, doc) {
               if (!err) {
-                console.log('User saved');
+                console.log(doc);
                 res.json(doc);
               } else {
-                console.log('Error on save');
-                res.json({success: false, message: 'Dados incorretos'});
+                res.json({success: false, message: 'Digite novamente. ;)'});
               }
             });
           }

@@ -28,10 +28,10 @@
 <div ng-repeat='boss in bosses'>
   <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default">{{boss.accumulated}} Votos de {{boss.maxClicks}}/min</button>
+      <button type="button" class="btn btn-default">{{boss.accumulated}} Votos de {{me.maxClicks[$index]}}/min</button>
     </div>
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default">Seu Nível: {{me.level}}</button>
+      <button type="button" class="btn btn-default">Seu Nível: {{me.level[$index]}}</button>
     </div>
   </div>
   <div class="progress-bar progress-bar-striped" role="progressbar"
