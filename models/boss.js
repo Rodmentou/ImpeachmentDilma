@@ -4,8 +4,9 @@ var Boss = mongoose.model('Boss',
     name: { type: String, unique: true},
     hp: Number,
     maxHp: Number,
-    id: Number,
-    imgSrc: String
+    id: { type: Number, unique: true},
+    imgSrc: String,
+    score: {type: Number, default: 0}
   });
 
 module.exports = mongoose.model('Boss', Boss);

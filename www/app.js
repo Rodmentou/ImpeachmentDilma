@@ -83,7 +83,7 @@ function ($rootScope, $scope, $http, $location) {
 
   $scope.sendAttack = function (id, clicks) {
     if (clicks > 0) {
-      $http.post('http://192.168.0.14:8080/api/attack', {bossId: id, clicks:clicks},
+      $http.post('https://impeachmentdilmabattle.herokuapp.com/api/attack', {bossId: id, clicks:clicks},
       { headers: {'x-access-token' : token } })
       .then( function (res) {
         console.log(res.data);
@@ -95,7 +95,7 @@ function ($rootScope, $scope, $http, $location) {
 
 
   $scope.getMe = function(cookieToken) {
-  	$http.get('http://192.168.0.14:8080/api/me',
+  	$http.get('https://impeachmentdilmabattle.herokuapp.com/api/me',
   		{ headers: {'x-access-token' : token } })
   		.then ( function (res) {
   			$scope.me = res.data;
@@ -114,12 +114,11 @@ function ($rootScope, $scope, $http, $location) {
 
 
   $scope.getBosses = function () {
-    $http.get('http://192.168.0.14:8080/api/bosses',
+    $http.get('https://impeachmentdilmabattle.herokuapp.com/api/bosses',
     { headers: {'x-access-token' : token } })
     .then( function (res) {
       $scope.bosses = res.data;
       var bosses = $scope.bosses;
-      console.log(bosses);
       for (var i = 0; i < bosses.length; i++) {
         bosses[i].relativeHp = Math.round((bosses[i].hp / bosses[i].maxHp)*100) + '%';
         bosses[i].hpClass = $scope.getBarClass(bosses[i]);
@@ -158,7 +157,7 @@ function ($rootScope, $scope, $http, $location) {
 app.controller('LoginController', function ($rootScope, $scope, $http, $location) {
 
 	$scope.signup = function (user) {
-		$http.post('http://192.168.0.14:8080/api/signup', user)
+		$http.post('https://impeachmentdilmabattle.herokuapp.com/api/signup', user)
 			.then( function (res) {
 				if (res.data.token) {
 

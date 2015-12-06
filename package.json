@@ -1,6 +1,6 @@
 {
   "name": "impeachmentdilma",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "ImpeachmentDilma: An Ionic project",
   "mains": "server.js",
   "scripts": {

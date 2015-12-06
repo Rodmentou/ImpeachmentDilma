@@ -19,10 +19,7 @@ module.exports = function (api) {
           clicks = validateClicks(user, clicks);
           user.maxClicks[bossId] = updateMaxClicks(user, clicks);
           user.totalClicks[bossId] = updateTotalClicks(user, bossId, clicks);
-          console.log(user);
 
-
-          console.log('Indo pro update');
           User.update({username:username},
           {$set: user}, function (err, data) {
             if (!err) {
@@ -31,6 +28,23 @@ module.exports = function (api) {
               return ({success: false, message: 'Opa no update!'});
             };
           });
+
+          Boss.findOne({id:bossId},
+          function (err, boss) {
+            if (!err) {
+              boss.hp -= clicks;
+              Boss.update({id: bossId},
+              {$set: boss}, function (err, data) {
+                if (!err) {
+                  console.log('Boss updated.');
+                } else {
+                  console.log('Error on updating boss');
+                }
+              })
+            } else {
+              console.log('Error on finding boss');
+            }
+          })
 
         } else {
           res.send('Opa no find!');
