@@ -14,10 +14,10 @@ module.exports = function (api) {
       if (!err) {
         if (bosses.length > 0 ) {
           for (var i = 0; i < bosses.length; i++) {
-            if (bosses[i].hp <= 0) { renewBosses(bosses, i);}
+            if (bosses[i].hp <= 0) { renewBosses(bosses, i);} //UPDATE BOSSES
           }
           res.json(bosses);
-        } else { //create Bosses.
+        } else {                                             //CREATE BOSSES
           createBosses();
           res.json({success: false,
             message: 'Opa, alguém morreu! Relogue e descubra quem!'});
@@ -37,14 +37,13 @@ module.exports = function (api) {
 
   });
 
-  var renewBosses = function(deadId, bosses) {
-
+  var renewBosses = function(bosses, deadId) {
+    console.log(bosses.length);
     for (var i = 0; i < bosses.length; i++ ) {
       var boss = bosses[i];
       var bossName = boss.name;
       boss.hp = boss.maxHp;
       if (boss.id != deadId) { boss.score ++; }
-
       Boss.update({name:bossName},
       {$set: boss}, function (err, data) {
         if (!err) {
@@ -67,7 +66,7 @@ module.exports = function (api) {
         hp: 1800,
         maxHp: 2100,
         id:0,
-        imgSrc : 'http://impeachmentdilmabattle.herokuapp.com/img/boss00.jpg'
+        imgSrc : 'https://impeachmentdilmabattle.herokuapp.com/img/boss00.jpg'
       }
     );
 
@@ -82,7 +81,7 @@ module.exports = function (api) {
         hp: 400,
         maxHp: 2100,
         id:1,
-        imgSrc : 'http://impeachmentdilmabattle.herokuapp.com/img/boss01.jpg'
+        imgSrc : 'https://impeachmentdilmabattle.herokuapp.com/img/boss01.jpg'
       }
     );
 

@@ -30,7 +30,6 @@ module.exports = function (api) {
             var newUser = new User(user);
             newUser.save ( function (err, doc) {
               if (!err) {
-                console.log(doc);
                 res.json(doc);
               } else {
                 res.json({success: false, message: 'Digite novamente. ;)'});
