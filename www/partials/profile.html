@@ -81,12 +81,12 @@
   </tr>
 
   <tr>
-    <td class='reference'> Cor do nome (clique para ativar):</td>
+    <td class='reference'> Cor do nome:</td>
     <td ng-class='me.colorActive[0]'> {{me.colorActive[0]}}</td>
     <td ng-class='me.colorActive[1]'> {{me.colorActive[1]}}</td>
   </tr>
 </table>
-Cores em posse:<br>
+Cores em posse (Clique para ativar):<br>
 <button ng-click='activateColor(color)'ng-repeat='color in myColors' class='btn btn-default' ng-class='color'> {{color}}</button><br>
 <div ng-if='colors'>Cores para comprar (1 moeda cada):<br>
 <button ng-click='buyColor(color)' ng-repeat='color in colors' class='btn btn-default'

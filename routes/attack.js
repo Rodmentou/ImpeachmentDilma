@@ -17,8 +17,8 @@ module.exports = function (api) {
       function (err, user) {
         if (!err) {
           var now = Date.now();
-          if ( (now - user.lastAttack) > 50) {
-            console.log(user);
+          if ( (now - user.lastAttack) > 50000) {
+            console.log(now - user.lastAttack);
             clicks = validateClicks(user, clicks, bossId);
             //user.maxClicks[bossId] = updateMaxClicks(user, clicks);
             user.totalClicks[bossId] = updateTotalClicks(user, bossId, clicks);

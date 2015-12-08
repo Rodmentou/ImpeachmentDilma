@@ -26,9 +26,10 @@ module.exports = function (api) {
     User.findOne({username: username},
     function (err, data) {
       if (!err) {
-        if ( (data.coinsUsed + 50 < Math.round(data.totalClicks[0]/500)) ||
-             (data.coinsUsed + 50 < Math.round(data.totalClicks[1]/500))){
+        if ( (data.coinsUsed + 50 <= Math.round(data.totalClicks[0]/500)) ||
+             (data.coinsUsed + 50 <= Math.round(data.totalClicks[1]/500))){
            data.dmgMulti[bossId] += 1;
+           console.log(data);
            data.coinsUsed += 50;
            User.update({username: username},
            {$set: data}, function(err, user) {

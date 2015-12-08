@@ -65,7 +65,7 @@ function ($rootScope, $scope, $http, $location) {
   };
 
   $scope.addMulti = function (me, bossId) {
-    if (me.coinsUsed + 50 < Math.round(me.totalClicks[bossId]/500)) {
+    if (me.coinsUsed + 50 <= Math.round(me.totalClicks[bossId]/500)) {
       $http.post('https://impeachmentdilmabattle.herokuapp.com/api/me/addMulti',
       {bossId: bossId}, { headers: {'x-access-token' : token } })
       .then( function (res) {
@@ -193,6 +193,14 @@ function ($rootScope, $scope, $http, $location) {
     }
   };
 
+  $scope.getLevelPercentage = function(dmg) {
+    return Math.round( ((dmg % 500)/500)*10 ) + '%';
+  };
+
+  $scope.getLevelNumber = function(totalDmg) {
+    return Math.round(totalDmg/500);
+  };
+
   $scope.getBarClass = function (boss) {
     if (boss) {
       if (boss.hp/boss.maxHp > 0.6) {
@@ -300,7 +308,7 @@ function ($rootScope, $scope, $http, $location) {
       bosses[i].accumulated = 0;
     }
 
-  }, 6000);
+  }, 60000);
 
 
 });
