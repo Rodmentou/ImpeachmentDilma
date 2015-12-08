@@ -1,0 +1,75 @@
+<style>
+.black {
+  font-weight: bold;
+}
+.blue {
+  color: blue;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+.yellow {
+  color: yellow;
+}
+  table,tr,th,td {
+    text-align: center;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  .reference {
+    width: 20%;
+  }
+
+</style>
+
+
+<b>{{me.username}}</b>
+<table class='table table-bordered table-responsive'>
+  <tr>
+    <th> </th>
+    <th> Dilmal</th>
+    <th> Cunhal</th>
+  </tr>
+  <tr>
+    <td class='reference'> Dano total</td>
+    <td> {{me.totalClicks[0]}} </td>
+    <td> {{me.totalClicks[1]}}</td>
+  </tr>
+
+  <tr>
+    <td class='reference'> Máx/minuto </td>
+    <td> {{me.maxClicks[0]}} </td>
+    <td> {{me.maxClicks[1]}}</td>
+  </tr>
+
+  <tr>
+    <td class='reference'> Multiplicador </td>
+    <td> X {{me.dmgMulti[0]}} </td>
+    <td> X {{me.dmgMulti[1]}}</td>
+  </tr>
+
+  <tr>
+    <td class='reference'> Moedas </td>
+    <td> {{getCoins(me, 0)}} </td>
+    <td> {{getCoins(me, 1)}}</td>
+  </tr>
+
+  <tr>
+    <td class='reference'> Cor do nome</td>
+    <td> {{me.colorActive[0]}}</td>
+    <td> {{me.colorActive[1]}}</td>
+  </tr>
+</table>
+Cores em posse:<br>
+<button ng-repeat='color in myColors' class='btn btn-default' ng-class='color'> {{color}}</button><br>
+Cores para comprar:<br>
+<button ng-click='buyColor(color)' ng-repeat='color in colors' class='btn btn-default' 
+        ng-class='color'>{{color}}</button><br>
+<button ng-click='addMulti()' class='btn btn-primary'>Aumentar Multiplicador</button><br>
+<button ng-click='addMax()' class='btn btn-primary'>Aumentar Máx/Minuto</button>

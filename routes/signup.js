@@ -26,6 +26,15 @@ module.exports = function (api) {
             user.maxClicks[0] = 100;
             user.totalClicks[1] = 0;
             user.maxClicks[1] = 100;
+            user.dmgMulti = [];
+            user.dmgMulti[0] = 1;
+            user.dmgMulti[1] = 1;
+            user.colorNames = [];
+            user.colorNames[0] = 'black';
+            user.colorActive = [];
+            user.colorActive[0] = 'black';
+            user.colorActive[1] = 'black';
+
             user.lastAttack = Date.now();
             var newUser = new User(user);
             newUser.save ( function (err, doc) {

@@ -40,6 +40,42 @@ app.run(function($ionicPlatform) {
   });
 });
 
+
+app.controller('ProfileController',
+function ($rootScope, $scope, $http, $location) {
+  var token = $rootScope.token;
+
+  $scope.colors = ['black', 'green', 'red', 'yellow', 'blue'];
+
+  $scope.getCoins = function (me, id) {
+    return Math.round(me.totalClicks[id]/1000 - me.coinsUsed);
+  };
+
+  $scope.buyColor = function (color) {
+    $http.post('https://impeachmentdilmabattle.herokuapp.com/api/me/buyColor',
+    {bossId: 0, color: color}, { headers: {'x-access-token' : token } })
+    .then( function (res) {
+      console.log(res.data);
+    });
+  };
+
+  $scope.getMe = function(cookieToken) {
+    $http.get('https://impeachmentdilmabattle.herokuapp.com/api/me',
+      { headers: {'x-access-token' : token } })
+      .then ( function (res) {
+        $scope.me = res.data;
+        $scope.myColors = res.data.colorNames;
+        console.log($scope.me.colorNames);
+        if (!$scope.me) $location.path('/');
+      }, function (res) {
+        console.log('Error fetching data.');
+      });
+  };
+
+  $scope.getMe(token);
+
+});
+
 app.controller('RankingController',
 function( $rootScope, $scope, $http, $location) {
   var token = $rootScope.token;
@@ -66,11 +102,14 @@ function( $rootScope, $scope, $http, $location) {
 
   };
 
+
+
   $scope.setRank = function (type, id) {
     if (type == 'boss') {
       $http.get('https://impeachmentdilmabattle.herokuapp.com/api/ranking/top10/' + id,
         { headers: {'x-access-token' : token } })
         .then( function (res) {
+          console.log(res.data);
           $scope.bossId = id;
           $scope.rankers = res.data;
         });
@@ -246,6 +285,11 @@ app.config( function($routeProvider, $locationProvider) {
     {
       controller: 'RankingController',
       templateUrl: 'partials/ranking.html'
+    })
+    .when('/profile',
+    {
+      controller: 'ProfileController',
+      templateUrl: 'partials/profile.html'
     })
     .otherwise(
 		{

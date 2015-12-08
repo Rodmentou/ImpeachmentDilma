@@ -10,7 +10,7 @@ module.exports = function (api) {
     var obj = {};
     obj[totalClicksId] = '-1';
 
-    User.find({}).sort(obj).limit(10).exec(
+    User.find({}).sort(obj).limit(50).exec(
       function (err, data) {
         res.json(data);
       });
