@@ -63,8 +63,8 @@ module.exports = function (api) {
     var newBoss = new Boss(
       {
         name: 'Dilmal',
-        hp: 1800,
-        maxHp: 2100,
+        hp: 210000,
+        maxHp: 210000,
         id:0,
         imgSrc : 'https://impeachmentdilmabattle.herokuapp.com/img/boss00.jpg'
       }
@@ -78,8 +78,8 @@ module.exports = function (api) {
     var newBoss = new Boss(
       {
         name: 'Cunhal',
-        hp: 400,
-        maxHp: 2100,
+        hp: 210000,
+        maxHp: 210000,
         id:1,
         imgSrc : 'https://impeachmentdilmabattle.herokuapp.com/img/boss01.jpg'
       }

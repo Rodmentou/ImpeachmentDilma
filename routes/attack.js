@@ -18,8 +18,9 @@ module.exports = function (api) {
         if (!err) {
           var now = Date.now();
           if ( (now - user.lastAttack) > 50) {
+            console.log(user);
             clicks = validateClicks(user, clicks, bossId);
-            user.maxClicks[bossId] = updateMaxClicks(user, clicks);
+            //user.maxClicks[bossId] = updateMaxClicks(user, clicks);
             user.totalClicks[bossId] = updateTotalClicks(user, bossId, clicks);
             user.lastAttack = now;
             console.log(clicks);
@@ -78,6 +79,7 @@ module.exports = function (api) {
     if (!clicks) {
       clicks = 1;
     }
+    clicks *= user.dmgMulti[bossId];
     if (clicks > user.maxClicks[bossId]) {
       clicks = user.maxClicks[bossId];
     }
@@ -86,7 +88,7 @@ module.exports = function (api) {
 
   var updateMaxClicks = function (user, clicks) {
       //Calculate if the user has updated his maximum.
-      return 100;
+      //return 100;
   };
 
   var updateTotalClicks = function(user, bossId, clicks) {

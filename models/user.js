@@ -7,7 +7,7 @@ var User = mongoose.model('User',
     maxClicks: [{type: Number, default: 100}],
     dmgMulti: [{type: Number, default: 1}],
     lastAttack : {type: Date, default: Date.now},
-    coinsUsed : {type: Number, default: -2},
+    coinsUsed : {type: Number, default: -49},
     colorNames: [ { type: String, default: 'black'}],
     colorActive: [{type: String, default: 'black'}]
   });

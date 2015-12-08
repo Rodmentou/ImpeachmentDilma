@@ -24,12 +24,24 @@
 
   .reference {
     width: 20%;
+    font-weight: bold;
   }
 
 </style>
 
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default"><b>{{me.username}}</b></button>
+  </div>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default">Ranking</button>
+  </div>
+  <div class="btn-group" role="group">
+    <a href='#/play'><button type="button" class="btn btn-default">Voltar</button></a>
+  </div>
+</div>
 
-<b>{{me.username}}</b>
+
 <table class='table table-bordered table-responsive'>
   <tr>
     <th> </th>
@@ -44,14 +56,22 @@
 
   <tr>
     <td class='reference'> Máx/minuto </td>
-    <td> {{me.maxClicks[0]}} </td>
-    <td> {{me.maxClicks[1]}}</td>
+    <td> {{me.maxClicks[0]}}
+      <button ng-click='addMax(me, 0)' class='btn-default'>+100 (1 moeda)</buttom>
+    </td>
+    <td> {{me.maxClicks[1]}}
+      <button ng-click='addMax(me, 1)' class='btn-default'>+100 (1 moeda)</buttom>
+    </td>
   </tr>
 
   <tr>
     <td class='reference'> Multiplicador </td>
-    <td> X {{me.dmgMulti[0]}} </td>
-    <td> X {{me.dmgMulti[1]}}</td>
+    <td> x{{me.dmgMulti[0]}}
+      <button ng-click='addMulti(me, 0)' class='btn-default'>+x1 (50 moedas)</button>
+    </td>
+    <td> x{{me.dmgMulti[1]}}
+      <button ng-click='addMulti(me, 1)' class='btn-default'>+x1 (50 moedas)</button>
+    </td>
   </tr>
 
   <tr>
@@ -61,15 +81,13 @@
   </tr>
 
   <tr>
-    <td class='reference'> Cor do nome</td>
-    <td> {{me.colorActive[0]}}</td>
-    <td> {{me.colorActive[1]}}</td>
+    <td class='reference'> Cor do nome (clique para ativar):</td>
+    <td ng-class='me.colorActive[0]'> {{me.colorActive[0]}}</td>
+    <td ng-class='me.colorActive[1]'> {{me.colorActive[1]}}</td>
   </tr>
 </table>
 Cores em posse:<br>
-<button ng-repeat='color in myColors' class='btn btn-default' ng-class='color'> {{color}}</button><br>
-Cores para comprar:<br>
-<button ng-click='buyColor(color)' ng-repeat='color in colors' class='btn btn-default' 
-        ng-class='color'>{{color}}</button><br>
-<button ng-click='addMulti()' class='btn btn-primary'>Aumentar Multiplicador</button><br>
-<button ng-click='addMax()' class='btn btn-primary'>Aumentar Máx/Minuto</button>
+<button ng-click='activateColor(color)'ng-repeat='color in myColors' class='btn btn-default' ng-class='color'> {{color}}</button><br>
+<div ng-if='colors'>Cores para comprar (1 moeda cada):<br>
+<button ng-click='buyColor(color)' ng-repeat='color in colors' class='btn btn-default'
+        ng-class='color'>{{color}}</button><br></div>

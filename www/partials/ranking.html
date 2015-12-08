@@ -58,8 +58,8 @@
   </tr>
   <tr ng-repeat='ranker in rankers'>
     <td class='position'>#{{$index}}</td>
-    <td ng-class='ranker.colorActive'>{{ranker.username}}{{ranker.colorActive}}</td>
-    <td>{{ranker.totalClicks[bossId]}}</td>
+    <td ng-class='ranker.colorActive'>{{ranker.username}}</td>
+    <td>{{formatDmg(ranker.totalClicks[bossId])}}</td>
   </tr>
 
 </table>
