@@ -9,7 +9,8 @@ var User = mongoose.model('User',
     maxClicks: [
       {type: Number, default: 100}
     ],
-    lastAttack : {type: Date, default: Date.now}
+    lastAttack : {type: Date, default: Date.now},
+    coinsUsed : {type: Number, default: 0}
   });
 
 module.exports = mongoose.model('User', User);

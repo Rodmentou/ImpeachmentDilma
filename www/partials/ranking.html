@@ -1,0 +1,48 @@
+<style>
+
+  .position {
+    width: 10%;
+  }
+
+  td {
+    text-align: center;
+  }
+
+  th {
+    text-align: center;
+    font-family: Verdana;
+  }
+
+  #homeButton {
+    width: .1%;
+  }
+
+</style>
+
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <button ng-click='setRank("boss","0")' type="button" class="btn btn-default">Dilmal</button>
+  </div>
+  <div class="btn-group" role="group">
+    <button ng-click='setRank("boss","1")' type="button" class="btn btn-default">Cunhal</button>
+  </div>
+  <div class="btn-group" role="group">
+    <a href='#/play'><button type="button" class="btn btn-default">Voltar</button></a>
+  </div>
+</div>
+
+
+
+<table ng-if='rankers' class='table table-striped table-responsive table-bordered'>
+  <tr>
+    <th class='position'>#</th>
+    <th>Nome</th>
+    <th>Dano</th>
+  </tr>
+  <tr ng-repeat='ranker in rankers'>
+    <td class='position'>#{{$index}}</td>
+    <td><b>{{ranker.username}}</b></td>
+    <td>{{ranker.totalClicks[bossId]}}</td>
+  </tr>
+
+</table>

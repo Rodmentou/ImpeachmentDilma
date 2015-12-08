@@ -4,6 +4,7 @@ module.exports = function (api) {
   require('./bosses')(api);
   //ONLY AUTHENTICATED USERS BEYOND TFHIS POINT.
   require('./middlewares')(api);
+  require('./ranking')(api);
   require('./attack')(api);
   require('./me')(api);
 

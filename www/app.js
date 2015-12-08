@@ -36,14 +36,57 @@ app.run(function($ionicPlatform) {
             }, function (){
             } );
       }
-    }, 15000);
+    }, 55000);
   });
 });
 
+app.controller('RankingController',
+function( $rootScope, $scope, $http, $location) {
+  var token = $rootScope.token;
+
+  $scope.getMe = function(cookieToken) {
+    $http.get('https://impeachmentdilmabattle.herokuapp.com/api/me',
+      { headers: {'x-access-token' : token } })
+      .then ( function (res) {
+        $scope.me = res.data;
+
+        var me = $scope.me;
+        me.level = [];
+        me.level[0] = Math.round(me.maxClicks[0]/100);
+        me.level[1] = Math.round(me.maxClicks[1]/100);
+
+
+        if (!$scope.me) $location.path('/');
+      }, function (res) {
+        console.log('Error fetching data.');
+      });
+  };
+
+  $scope.getRankers = function (rankName) {
+
+  };
+
+  $scope.setRank = function (type, id) {
+    if (type == 'boss') {
+      $http.get('https://impeachmentdilmabattle.herokuapp.com/api/ranking/top10/' + id,
+        { headers: {'x-access-token' : token } })
+        .then( function (res) {
+          $scope.bossId = id;
+          $scope.rankers = res.data;
+        });
+    } else if (type == 'top'){
+
+    }
+  };
+
+  $scope.getMe(token);
+
+});
 
 app.controller('GameController',
 function ($rootScope, $scope, $http, $location) {
   var token = $rootScope.token;
+
 
 
   $scope.getBarClass = function (boss) {
@@ -56,7 +99,7 @@ function ($rootScope, $scope, $http, $location) {
         return 'progress-bar-danger';
       }
     }
-};
+  };
 
   $scope.getHpBar = function (boss) {
     if (boss) {
@@ -65,10 +108,14 @@ function ($rootScope, $scope, $http, $location) {
     }
   };
 
-  $scope.addAttack = function (id) {
-    var boss = $scope.bosses[id].accumulated++;
-    boss.accumulated ++;
-    console.log(boss);
+  $scope.addAttack = function (boss, me) {
+    if (boss.accumulated > me.maxClicks[boss.id]) {
+      boss.accumulated -= 2;
+    } else {
+      boss.accumulated += 1;
+      me.totalClicks[boss.id] ++;
+    }
+
   };
 
   $scope.getAttack = function(id) {
@@ -88,13 +135,12 @@ function ($rootScope, $scope, $http, $location) {
       $http.post('https://impeachmentdilmabattle.herokuapp.com/api/attack', {bossId: id, clicks:clicks},
       { headers: {'x-access-token' : token } })
       .then( function (res) {
-        console.log(res.data);
+        console.log('Attack ok');
       }, function (res) {
-        console.log(res.data);
+        console.log('Attack error' + res.data);
       });
     }
   };
-
 
   $scope.getMe = function(cookieToken) {
   	$http.get('https://impeachmentdilmabattle.herokuapp.com/api/me',
@@ -113,7 +159,6 @@ function ($rootScope, $scope, $http, $location) {
   			console.log('Error fetching data.');
   		});
   };
-
 
   $scope.getBosses = function () {
     $http.get('https://impeachmentdilmabattle.herokuapp.com/api/bosses',
@@ -196,7 +241,12 @@ app.config( function($routeProvider, $locationProvider) {
 		{
 			controller: 'GameController',
 			templateUrl: 'partials/game.html'
-	})
+	  })
+    .when('/ranking',
+    {
+      controller: 'RankingController',
+      templateUrl: 'partials/ranking.html'
+    })
     .otherwise(
 		{
 			redirectTo: '/'
