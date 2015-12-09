@@ -41,13 +41,13 @@
 
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default"><b>{{me.username}}</b></button>
+    <button type="button" class="btn btn-default glyphicon glyphicon-user"><b>{{me.username}}</b></button>
   </div>
   <div class="btn-group" role="group">
-    <a href='#/play'><button type="button" class="btn btn-default">Ranking</button></a>
+    <a href='#/ranking'><button type="button" class="btn btn-default glyphicon glyphicon-list">Ranking</button></a>
   </div>
   <div class="btn-group" role="group">
-    <a href='#/play'><button type="button" class="btn btn-default">Voltar</button></a>
+    <a href='#/play'><button type="button" class="btn btn-default glyphicon glyphicon-arrow-left">Voltar</button></a>
   </div>
 </div>
 
@@ -108,6 +108,6 @@
 </table>
 <div>Suas cores:<br></span>
 <button ng-click='activateColor(color)'ng-repeat='color in myColors' class='btn btn-default' ng-class='color'> {{color}}</button><br>
-<div ng-if='colors'>Cores <span>(1):</span><br>
+<div ng-if='colors'>Cores *Exibição com problemas. <span>(1):</span><br>
 <button ng-click='buyColor(color)' ng-repeat='color in colors' class='btn btn-default'
         ng-class='color'>{{color}}</button><br></div>

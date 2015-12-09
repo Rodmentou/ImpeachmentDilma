@@ -99,12 +99,14 @@ function ($rootScope, $scope, $http, $location) {
   };
 
   $scope.addMax = function (me, bossId) {
-    if (me.coinsUsed < Math.round(me.totalClicks[bossId]/500)) {
+    if (me.coinsUsed[bossId] < Math.round(me.totalClicks[bossId]/500)) {
       $http.post('https://impeachmentdilmabattle.herokuapp.com/api/me/addMax',
       {bossId: bossId}, { headers: {'x-access-token' : token } })
       .then( function (res) {
-        $scope.me.coinsUsed++;
+        $scope.me.coinsUsed[bossId]++;
         $scope.me.maxClicks[bossId] += 100;
+      }, function (res) {
+        console.log('err on addMax');
       });
     }
   };
