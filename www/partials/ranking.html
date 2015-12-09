@@ -17,21 +17,28 @@
     width: .1%;
   }
 
-  .black {
+  .Preto {
     font-weight: bold;
   }
-  .blue {
+  .Azul {
     color: blue;
   }
-  .green {
-    color: green;
+  .Verde {
+    color: #228B22;
   }
-  .red {
+  .Vermelho {
     color: red;
   }
-  .yellow {
+  .Amarelo {
     color: yellow;
   }
+  .Ouro {
+    color: gold;
+  }
+  .Rosa {
+    color: #FF00FF;
+  }
+
 
 
 </style>
@@ -57,7 +64,7 @@
     <th>Dano</th>
   </tr>
   <tr ng-repeat='ranker in rankers'>
-    <td class='position'>#{{$index}}</td>
+    <td class='position'>#{{$index+1}}</td>
     <td ng-class='ranker.colorActive'>{{ranker.username}}</td>
     <td>{{formatDmg(ranker.totalClicks[bossId])}}</td>
   </tr>

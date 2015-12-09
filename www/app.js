@@ -40,28 +40,51 @@ app.run(function($ionicPlatform) {
   });
 });
 
-
 app.controller('ProfileController',
 function ($rootScope, $scope, $http, $location) {
   var token = $rootScope.token;
 
-  $scope.colors = ['black', 'green', 'red', 'yellow', 'blue'];
+  $scope.colors = ['Preto', 'Verde', 'Vermelho', 'Amarelo', 'Azul', 'Ouro',
+    'Rosa'];
 
   $scope.getCoins = function (me, id) {
     if (me) {
-      return Math.round(me.totalClicks[id]/500 - me.coinsUsed);
+      return Math.round(me.totalClicks[id]/500 - me.coinsUsed[id]);
     }
   };
 
   $scope.buyColor = function (color) {
     $http.post('https://impeachmentdilmabattle.herokuapp.com/api/me/buyColor',
-    {bossId: 0, color: color}, { headers: {'x-access-token' : token } })
+    {color: color}, { headers: {'x-access-token' : token } })
     .then( function (res) {
-      var index = $scope.colors.indexOf(color);
-      $scope.me.coinsUsed++;
-      $scope.colors.splice(index, 1);
-      $scope.myColors.push(color);
+      if (res.data.success) {
+        var index = $scope.colors.indexOf(color);
+        $scope.me.coinsUsed[0]++;
+        $scope.me.coinsUsed[1]++;
+        $scope.colors.splice(index, 1);
+        $scope.myColors.push(color);
+      }
+
+    }, function (res) {
+      console.log('Error on colors');
     });
+  };
+
+  $scope.addAuto = function (me, bossId) {
+    console.log('Entrou no add auto');
+    console.log(me.coinsUsed + 10 <= Math.round(me.totalClicks[bossId]/500));
+    console.log(Math.round(me.totalClicks[bossId]/500));
+    console.log(me.coinsUsed + 10);
+    if (me.coinsUsed[bossId] + 10 <= Math.round(me.totalClicks[bossId]/500) ) {
+      $http.post('https://impeachmentdilmabattle.herokuapp.com/api/me/addAuto',
+      {bossId: bossId}, { headers: {'x-access-token' : token } })
+      .then( function (res) {
+        if (res.data.success) {
+          $scope.me.coinsUsed[bossId] += 10;
+          $scope.me.autoClick[bossId] += 1;
+        }
+      });
+    }
   };
 
   $scope.addMulti = function (me, bossId) {
@@ -104,14 +127,12 @@ function ($rootScope, $scope, $http, $location) {
         var colors = $scope.colors;
         $scope.myColors = [];
         for (var i = 0; i < colors.length; i++) {
-          if (myColors.indexOf(colors[i]) > -1 ) {
+          if (myColors.indexOf(colors[i]) != -1 ) {
             console.log('Tem essa:' + colors[i]);
             $scope.myColors.push(colors[i]);
             $scope.colors.splice(i, 1);
           }
         };
-
-
         console.log($scope.me.colorNames);
         if (!$scope.me) $location.path('/');
       }, function (res) {
@@ -159,8 +180,6 @@ function( $rootScope, $scope, $http, $location) {
 
   };
 
-
-
   $scope.setRank = function (type, id) {
     if (type == 'boss') {
       $http.get('https://impeachmentdilmabattle.herokuapp.com/api/ranking/top10/' + id,
@@ -194,7 +213,7 @@ function ($rootScope, $scope, $http, $location) {
   };
 
   $scope.getLevelPercentage = function(dmg) {
-    return Math.round( ((dmg % 500)/500)*10 ) + '%';
+    return Math.round( ((dmg % 500)/500)*100 ) + '%';
   };
 
   $scope.getLevelNumber = function(totalDmg) {
@@ -220,11 +239,12 @@ function ($rootScope, $scope, $http, $location) {
     }
   };
 
-  $scope.addAttack = function (boss, me) {
+  $scope.addAttack = function (boss, me, amount) {
+    if (amount == undefined || amount == null) amount = 1;
     if (boss.accumulated > me.maxClicks[boss.id]) {
       boss.accumulated -= 2;
     } else {
-      var realDamage = me.dmgMulti[boss.id]
+      var realDamage = me.dmgMulti[boss.id] * amount;
       boss.accumulated += realDamage;
       me.totalClicks[boss.id] += realDamage;
     }
@@ -283,6 +303,8 @@ function ($rootScope, $scope, $http, $location) {
         bosses[i].relativeHp = Math.round((bosses[i].hp / bosses[i].maxHp)*100) + '%';
         bosses[i].hpClass = $scope.getBarClass(bosses[i]);
         bosses[i].accumulated = 0;
+        ((bosses[i].hp/bosses[i].maxHp) > 0.3 ) ?
+          bosses[i].lowHp = false : bosses[i].lowHp = true;
       }
       console.log(res.data);
     }, function (err) {
@@ -310,11 +332,20 @@ function ($rootScope, $scope, $http, $location) {
 
   }, 60000);
 
+  setInterval ( function () {
+    var bosses = $scope.bosses;
+    var me = $scope.me;
+    for (var i = 0; i < bosses.length; i++ ){
+      $scope.addAttack(bosses[i], me, me.autoClick[i]);
+    }
+  }, 1000);
+
 
 });
 
 
-app.controller('LoginController', function ($rootScope, $scope, $http, $location) {
+app.controller('LoginController',
+function ($rootScope, $scope, $http, $location) {
 
 	$scope.signup = function (user) {
 		$http.post('https://impeachmentdilmabattle.herokuapp.com/api/signup', user)
@@ -337,8 +368,6 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $location
 
 
 });
-
-
 
 app.config( function($routeProvider, $locationProvider) {
 

@@ -41,7 +41,9 @@
   </div>
 
   <div class="progress-bar progress-bar-striped" role="progressbar"
-       ng-class='boss.hpClass' ng-style="{width: boss.relativeHp}">{{boss.name}} Vida
+       ng-class='boss.hpClass' ng-style="{width: boss.relativeHp}">
+        <div ng-if='!boss.lowHp'>{{boss.name}} Vida</div>
+        <div ng-if='boss.lowHp'>:(</div>
   </div>
 
   <div class='row'>

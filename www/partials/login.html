@@ -4,29 +4,32 @@ body {
 }
 .jumbotron {
 	text-align: center;
-	font-family: verdana;
+	font-family: cursive verdana;
+	font-size: 15px;
 }
+.formfofo {
+	width: 300px;
+	height: 200px;
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+button {}
 
 </style>
 
-<form ng-submit='signup(user)' class="jumbotron form form-control"
-style='		width: 300px;
-			height: 200px;
-			text-align: center;
-			margin-top: 50px;
-			margin-bottom: 50px;
-			margin-left: auto;
-			margin-right: auto;'>
+<form ng-submit='signup(user)' class="jumbotron form form-control formfofo">
 			<h3> Dilmal VS Cunhal </h3>
 	<input class='form-control' type='text' ng-model='user.username' placeholder='  Nome de Exibição'>
 	<input class='form-control' type='password' ng-model='user.password' placeholder='  Senha'>
 	<button ng-click='signup(user)' class='btn btn-danger'>Entrar/Cadastrar</button>
 	<div ng-if='error'>{{error}}</div>
 </form>
-<div class='jumbotron'>
-	Use seus Votos contra para atacar! <br>
-	Vote dando dedadas nas faces das figuras! ;) <br>
-	Quanto mais Votos contra, mais perto <br>
+<div class='jumbotron form-control formfofo'>
+	Use seus Votos para <b>atacar!</b> <br>
+	Vote clicando nas figuras. ;) <br><br>
+	Quanto mais Votos, mais perto <br>
 	do Impeachment ou Cassação!<br>
-	Vote consciente. hahaha
 </div>
